@@ -27,7 +27,6 @@
     overflow-x: hidden;
   }
 
-  /* Decorative blobs */
   body::before {
     content: '';
     position: fixed;
@@ -86,50 +85,16 @@
     opacity: 0.7;
   }
 
-  /* Input panel */
-  .input-panel {
+  .controls-panel {
     background: white;
     border-radius: 24px;
-    padding: 32px;
+    padding: 24px 32px;
     box-shadow: 0 4px 30px rgba(180, 120, 160, 0.1);
     margin-bottom: 32px;
     border: 1.5px solid #f0e0ea;
-  }
-
-  .input-panel label {
-    display: block;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--soft);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-
-  textarea {
-    width: 100%;
-    min-height: 160px;
-    padding: 16px;
-    border: 1.5px solid #f0dde8;
-    border-radius: 16px;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 0.95rem;
-    color: var(--text);
-    background: #fdf9fc;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.2s;
-    line-height: 1.6;
-  }
-
-  textarea:focus { border-color: var(--pink); }
-  textarea::placeholder { color: #d4b0c0; }
-
-  .options-row {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    margin-top: 20px;
     align-items: flex-end;
   }
 
@@ -142,7 +107,12 @@
   }
 
   .option-group label {
-    margin-bottom: 0;
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   input[type="text"], input[type="number"], select {
@@ -172,13 +142,13 @@
     cursor: pointer;
     transition: all 0.2s ease;
     letter-spacing: 0.3px;
+    white-space: nowrap;
   }
 
   .btn-primary {
     background: linear-gradient(135deg, var(--pink), var(--lavender));
     color: white;
     box-shadow: 0 4px 16px rgba(249, 184, 204, 0.5);
-    margin-top: 8px;
   }
 
   .btn-primary:hover {
@@ -190,7 +160,6 @@
     background: transparent;
     color: var(--soft);
     border: 1.5px solid #f0dde8;
-    margin-top: 8px;
   }
 
   .btn-secondary:hover {
@@ -198,21 +167,12 @@
     border-color: var(--pink);
   }
 
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-  }
-
-  /* Cloud output */
   .cloud-panel {
     background: white;
     border-radius: 24px;
     padding: 40px 32px;
     box-shadow: 0 4px 30px rgba(180, 120, 160, 0.1);
     border: 1.5px solid #f0e0ea;
-    display: none;
     animation: fadeUp 0.5s ease;
   }
 
@@ -252,9 +212,7 @@
     flex-wrap: wrap;
   }
 
-  .stat {
-    text-align: center;
-  }
+  .stat { text-align: center; }
 
   .stat-num {
     font-family: 'Playfair Display', serif;
@@ -298,15 +256,14 @@
     font-weight: 600;
   }
 
-  .empty-state {
-    text-align: center;
-    color: var(--soft);
-    font-style: italic;
-    padding: 40px;
-    display: none;
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 28px;
   }
 
-  /* Floating hearts animation */
   .floating-heart {
     position: fixed;
     font-size: 1.2rem;
@@ -323,7 +280,7 @@
 
   @media (max-width: 500px) {
     header h1 { font-size: 2rem; }
-    .input-panel, .cloud-panel { padding: 22px 16px; }
+    .controls-panel, .cloud-panel { padding: 22px 16px; }
   }
 </style>
 </head>
@@ -332,57 +289,29 @@
 <div class="container">
   <header>
     <h1>our words</h1>
-    <p>every word we ever sent</p>
     <div class="hearts">🌸 ✨ 💌 ✨ 🌸</div>
   </header>
 
-  <!-- Upload panel -->
-  <div class="input-panel" id="upload-panel">
-    <label for="chat-file">upload your whatsapp chat export (.txt)</label>
-    <div id="drop-zone" style="
-      border: 2px dashed #f0dde8;
-      border-radius: 16px;
-      padding: 40px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      background: #fdf9fc;
-    ">
-      <div style="font-size: 2rem; margin-bottom: 10px;">💌</div>
-      <div style="font-weight: 600; color: var(--soft); margin-bottom: 6px;">drop your chat file here</div>
-      <div style="font-size: 0.85rem; color: #d4b0c0;">or click to browse</div>
-      <input type="file" id="chat-file" accept=".txt" style="display:none">
+  <div class="controls-panel">
+    <div class="option-group">
+      <label for="cloud-title">title</label>
+      <input type="text" id="cloud-title" value="our words" placeholder="our words">
     </div>
-    <div id="file-name" style="margin-top: 12px; font-size: 0.85rem; color: var(--soft); text-align: center; min-height: 1.2em;"></div>
-
-    <div class="options-row" style="margin-top: 20px;">
-      <div class="option-group">
-        <label for="cloud-title">title</label>
-        <input type="text" id="cloud-title" value="our words" placeholder="our words">
-      </div>
-      <div class="option-group">
-        <label for="palette">colour palette</label>
-        <select id="palette">
-          <option value="pastel">pastel 🌸</option>
-          <option value="rose">rose 🌹</option>
-          <option value="sky">sky 🌤</option>
-          <option value="mint">mint 🌿</option>
-          <option value="sunset">sunset 🌅</option>
-        </select>
-      </div>
-      <div class="option-group">
-        <label for="max-words">max words</label>
-        <input type="number" id="max-words" value="80" min="10" max="200">
-      </div>
+    <div class="option-group">
+      <label for="palette">colour palette</label>
+      <select id="palette">
+        <option value="pastel">pastel 🌸</option>
+        <option value="rose">rose 🌹</option>
+        <option value="sky">sky 🌤</option>
+        <option value="mint">mint 🌿</option>
+        <option value="sunset">sunset 🌅</option>
+      </select>
     </div>
-
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="generateFromFile()">generate ✨</button>
+    <div style="display: none;" class="option-group">
+      <label for="max-words">max words</label>
+      <input type="number" id="max-words" value="80" min="10" max="120">
     </div>
-
-    <p style="margin-top: 16px; font-size: 0.8rem; color: #d4b0c0; text-align: center;">
-      🔒 your chat is never uploaded — everything happens right here in your browser
-    </p>
+    <button class="btn btn-primary" onclick="redraw()">regenerate ✨</button>
   </div>
 
   <div class="cloud-panel" id="cloud-panel">
@@ -397,124 +326,18 @@
       <div class="word-pills" id="word-pills"></div>
     </div>
 
-    <div class="btn-row" style="justify-content:center; margin-top:28px;">
+    <div class="btn-row">
       <button class="btn btn-primary" onclick="downloadCloud()">save as image 💾</button>
-
     </div>
-  </div>
   </div>
 </div>
 
 <script>
-// ─── FILE UPLOAD HANDLING ────────────────────────────────────────────────────
-let loadedChatText = null;
+// ── HARDCODED WORD FREQUENCY DATA ────────────────────────────────────────────
+const ALL_WORDS = [["little",126],["pretty",111],["sleep",88],["love",86],["hope",85],["feel",85],["morning",82],["cool",81],["raph",78],["much",75],["though",71],["sounds",70],["bed",68],["mom",66],["home",65],["life",64],["fun",62],["people",62],["something",60],["take",58],["enjoy",58],["long",58],["school",58],["happy",57],["work",55],["bit",54],["always",52],["any",50],["lot",49],["definitely",49],["new",48],["today",47],["many",46],["person",46],["try",44],["first",43],["made",43],["ever",43],["excited",42],["last",42],["years",42],["friends",42],["best",40],["brother",40],["kids",39],["night",39],["dream",39],["hehe",39],["photos",39],["two",38],["watch",38],["favourite",37],["play",37],["makes",37],["dreams",37],["rest",36],["quite",36],["tell",36],["remember",36],["probably",36],["edited",34],["around",32],["kind",32],["weird",32],["never",31],["year",31],["live",31],["tattoo",30],["house",30],["mind",30],["tomorrow",30],["movie",30],["find",30],["next",30],["parents",30],["look",30],["nap",30],["busy",30],["dad",29],["amazing",28],["give",28],["since",28],["yet",28],["kid",27],["mostly",27],["difficult",27],["list",27],["name",26],["looks",26],["friend",26],["keep",26],["enough",26],["done",26],["anything",26],["feeling",26],["start",26],["experience",26],["old",25],["used",25],["big",25],["together",25],["took",25],["interesting",24],["wanted",24],["close",24],["struggle",24],["read",24],["beautiful",23],["whole",23],["help",23],["better",23],["song",23],["easy",23],["another",23],["family",23],["stuff",23],["usually",23],["trip",23],["wait",22],["bad",22]];
 
-window.addEventListener('DOMContentLoaded', () => {
-  const dropZone = document.getElementById('drop-zone');
-  const fileInput = document.getElementById('chat-file');
-  const fileNameEl = document.getElementById('file-name');
-
-  dropZone.addEventListener('click', () => fileInput.click());
-
-  dropZone.addEventListener('dragover', e => {
-    e.preventDefault();
-    dropZone.style.borderColor = '#f9b8cc';
-    dropZone.style.background = '#fdf0f5';
-  });
-
-  dropZone.addEventListener('dragleave', () => {
-    dropZone.style.borderColor = '#f0dde8';
-    dropZone.style.background = '#fdf9fc';
-  });
-
-  dropZone.addEventListener('drop', e => {
-    e.preventDefault();
-    dropZone.style.borderColor = '#f0dde8';
-    dropZone.style.background = '#fdf9fc';
-    const file = e.dataTransfer.files[0];
-    if (file) readFile(file);
-  });
-
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files[0]) readFile(fileInput.files[0]);
-  });
-
-  function readFile(file) {
-    if (!file.name.endsWith('.txt')) {
-      fileNameEl.textContent = '⚠️ please upload a .txt file';
-      fileNameEl.style.color = '#e87890';
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = e => {
-      loadedChatText = e.target.result;
-      fileNameEl.textContent = `✓ ${file.name} loaded`;
-      fileNameEl.style.color = '#45c4a0';
-    };
-    reader.readAsText(file);
-  }
-});
-
-function generateFromFile() {
-  if (!loadedChatText) {
-    document.getElementById('file-name').textContent = '⚠️ please upload your chat file first';
-    document.getElementById('file-name').style.color = '#e87890';
-    return;
-  }
-  generate(loadedChatText);
-}
-// ─────────────────────────────────────────────────────────────────────────────
-
-// REMOVED: hardcoded WHATSAPP_CHAT — chat is now loaded at runtime from a file
-// so it never appears in the source code of this file.
-// Chat is loaded at runtime via file upload — no chat data is stored in this file.
-// ─────────────────────────────────────────────────────────────────────────────
-
-// Parse WhatsApp export: strip timestamps and sender names, return plain text
-function parseWhatsApp(raw) {
-  // Match lines starting with: YYYY/MM/DD, HH:MM - Name:
-  const lineRe = /^\d{4}\/\d{2}\/\d{2},\s*\d{1,2}:\d{2}\s*-\s*[^:]+:\s*/;
-  return raw
-    .split('\n')
-    .map(line => line.replace(lineRe, '').replace(/https?:\/\/\S+/gi, '').replace(/\s*<This message was edited>/gi, '').trim())
-    .filter(line =>
-      line.length > 0 &&
-      // drop system messages like "Messages and calls are end-to-end encrypted"
-      !line.startsWith('Messages and calls') &&
-      !/^\u200e/.test(line)  // drop lines starting with WhatsApp's invisible char
-    )
-    .join(' ');
-}
-
-const STOP_WORDS = new Set([
-  'i','me','my','myself','we','our','ours','ourselves','you','your','yours',
-  'yourself','he','him','his','himself','she','her','hers','herself','it',
-  'its','itself','they','them','their','theirs','themselves','what','which',
-  'who','whom','this','that','these','those','am','is','are','was','were',
-  'be','been','being','have','has','had','having','do','does','did','doing',
-  'a','an','the','and','but','if','or','because','as','until','while','of',
-  'at','by','for','with','about','against','between','into','through',
-  'during','before','after','above','below','to','from','up','down','in',
-  'out','on','off','over','under','again','further','then','once','here',
-  'there','when','where','why','how','all','both','each','few','more','most',
-  'other','some','such','no','nor','not','only','own','same','so','than',
-  'too','very','s','t','can','will','just','don','should','now','d','ll',
-  'm','o','re','ve','y','ain','aren','couldn','didn','doesn','hadn','hasn',
-  'haven','isn','ma','mightn','mustn','needn','shan','shouldn','wasn',
-  'weren','won','wouldn','gonna','gotta','im','ive','youre','theyre',
-  'thats','its','dont','cant','wont','doesnt','didnt','wasnt',
-  // modal verbs
-  'could','may','might','must','shall','would','ought','need','dare',
-  'ok','okay','yeah','yep','nope','lol','haha','hahaha','omg','tbh',
-  'idk','imo','bc','cuz','cause','like','just','get','got','go','going',
-  'know','think','want','one','time','way','day','good','really','even',
-  'back','see','come','make','said','say','things','thing','well','still',
-  'also','come','came','went','going','get','getting','let','putting',
-  'maybe','yeah','nah','oh','ah','um','uh','hmm','yes','no','hey','hi',
-  'hello','bye','ok','okay','sure','wow','nice','great','thanks','thank',
-  'sorry','please','np','ty','ur','u','r','w','n','b','c','k','x',
-  'media','omitted'
-]);
+const TOTAL_WORDS = 16048;
+const UNIQUE_WORDS = 3990;
 
 const PALETTES = {
   pastel:  ['#f9b8cc','#d4b8f9','#b8d4f9','#b8f0e0','#f9d4b8','#f0b8f9','#f9f0b8','#b8f9d4'],
@@ -532,63 +355,29 @@ const PILL_COLORS = [
   {bg:'#fdf3e8',color:'#c48045'},
 ];
 
-function tokenize(text) {
-  return text.toLowerCase()
-    .replace(/[^\w\s']/g,' ')
-    .split(/\s+/)
-    .map(w => w.replace(/^'+|'+$/g,''))
-    .filter(w =>
-      w.length > 2 &&
-      !STOP_WORDS.has(w) &&
-      !/^\d+$/.test(w) &&
-      !w.includes("'")   // omit contractions (e.g. don't, it's, I'm)
-    );
-}
-
-function getFreq(tokens) {
-  const freq = {};
-  tokens.forEach(w => freq[w] = (freq[w]||0) + 1);
-  return Object.entries(freq).sort((a,b)=>b[1]-a[1]);
-}
-
-function generate(chatRaw) {
-  const text = parseWhatsApp(chatRaw);
-  if (!text) { console.error('No chat text found.'); return; }
-
-  const tokens = tokenize(text);
-
-  const freq = getFreq(tokens);
+function redraw() {
   const maxWords = parseInt(document.getElementById('max-words').value) || 80;
-  const words = freq.slice(0, maxWords);
-  const palette = PALETTES[document.getElementById('palette').value];
+  const words = ALL_WORDS.slice(0, maxWords);
+  const palette = PALETTES[document.getElementById('palette').value] || PALETTES.pastel;
   const titleVal = document.getElementById('cloud-title').value || 'our words';
-
-  // Stats
-  const uniqueWords = freq.length;
-  const totalWords = tokens.length;
-  const topWord = freq[0]?.[0] || '';
 
   document.getElementById('output-title').textContent = titleVal;
   document.getElementById('output-subtitle').textContent =
-    `${totalWords.toLocaleString()} words · ${uniqueWords.toLocaleString()} unique`;
+    `${TOTAL_WORDS.toLocaleString()} words · ${UNIQUE_WORDS.toLocaleString()} unique`;
 
-  // Stats row
   document.getElementById('stats-row').innerHTML = [
-    [totalWords.toLocaleString(), 'total words'],
-    [uniqueWords.toLocaleString(), 'unique words'],
-    [topWord, 'most said'],
+    [TOTAL_WORDS.toLocaleString(), 'total words'],
+    [UNIQUE_WORDS.toLocaleString(), 'unique words'],
+    [ALL_WORDS[0][0], 'most said'],
   ].map(([n,l]) => `<div class="stat"><span class="stat-num">${n}</span><span class="stat-label">${l}</span></div>`).join('');
 
-  // Pills
   const pills = document.getElementById('word-pills');
-  pills.innerHTML = freq.slice(0,12).map(([w,c],i)=>{
+  pills.innerHTML = ALL_WORDS.slice(0, 12).map(([w,c], i) => {
     const col = PILL_COLORS[i % PILL_COLORS.length];
     return `<span class="pill" style="background:${col.bg};color:${col.color}">${w} <b>${c}</b></span>`;
   }).join('');
 
   drawCloud(words, palette);
-  document.getElementById('cloud-panel').style.display = 'block';
-  document.getElementById('cloud-panel').scrollIntoView({ behavior:'smooth', block:'start' });
   spawnHearts();
 }
 
@@ -596,54 +385,49 @@ function drawCloud(words, palette) {
   const canvas = document.getElementById('cloud-canvas');
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
-  ctx.clearRect(0,0,W,H);
+  ctx.clearRect(0, 0, W, H);
 
-  // Soft background
   ctx.fillStyle = '#fdf6f0';
-  ctx.fillRect(0,0,W,H);
+  ctx.fillRect(0, 0, W, H);
 
-  // Subtle grid dots
   ctx.fillStyle = 'rgba(180,140,160,0.12)';
-  for (let x=20;x<W;x+=30) for (let y=20;y<H;y+=30) {
-    ctx.beginPath(); ctx.arc(x,y,1.5,0,Math.PI*2); ctx.fill();
+  for (let x = 20; x < W; x += 30) for (let y = 20; y < H; y += 30) {
+    ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
   }
 
   const maxCount = words[0][1];
-  const minCount = words[words.length-1][1];
+  const minCount = words[words.length - 1][1];
   const placed = [];
-
   const minFont = 13, maxFont = 72;
 
   function fontSize(count) {
-    if (maxCount === minCount) return (minFont+maxFont)/2;
-    return minFont + (maxFont-minFont)*Math.pow((count-minCount)/(maxCount-minCount),0.55);
+    if (maxCount === minCount) return (minFont + maxFont) / 2;
+    return minFont + (maxFont - minFont) * Math.pow((count - minCount) / (maxCount - minCount), 0.55);
   }
 
-  function overlaps(x,y,w,h) {
+  function overlaps(x, y, w, h) {
     const pad = 6;
     for (const p of placed) {
-      if (x-pad < p.x+p.w && x+w+pad > p.x &&
-          y-pad < p.y+p.h && y+h+pad > p.y) return true;
+      if (x - pad < p.x + p.w && x + w + pad > p.x &&
+          y - pad < p.y + p.h && y + h + pad > p.y) return true;
     }
     return false;
   }
 
   function tryPlace(word, count, attempt) {
     const size = fontSize(count);
-    ctx.font = `${count===maxCount?'bold ':''}${size}px Quicksand, sans-serif`;
+    ctx.font = `${count === maxCount ? 'bold ' : ''}${size}px Quicksand, sans-serif`;
     const tw = ctx.measureText(word).width;
     const th = size * 1.2;
-
-    // Spiral out from center
-    const cx = W/2, cy = H/2;
-    for (let r=0; r<Math.max(W,H)*0.8; r+=3) {
-      const angle = r * 0.28 + attempt*1.3;
-      const x = cx + r*Math.cos(angle) - tw/2;
-      const y = cy + r*Math.sin(angle) + th/3;
-      if (x<4||x+tw>W-4||y-th<4||y>H-4) continue;
-      if (!overlaps(x, y-th, tw, th)) {
-        placed.push({x,y:y-th,w:tw,h:th});
-        return {x, y, size, tw, th};
+    const cx = W / 2, cy = H / 2;
+    for (let r = 0; r < Math.max(W, H) * 0.8; r += 3) {
+      const angle = r * 0.28 + attempt * 1.3;
+      const x = cx + r * Math.cos(angle) - tw / 2;
+      const y = cy + r * Math.sin(angle) + th / 3;
+      if (x < 4 || x + tw > W - 4 || y - th < 4 || y > H - 4) continue;
+      if (!overlaps(x, y - th, tw, th)) {
+        placed.push({ x, y: y - th, w: tw, h: th });
+        return { x, y, size, tw, th };
       }
     }
     return null;
@@ -652,27 +436,18 @@ function drawCloud(words, palette) {
   words.forEach(([word, count], i) => {
     const pos = tryPlace(word, count, i);
     if (!pos) return;
-
     const color = palette[i % palette.length];
-    const size = pos.size;
-
-    // Shadow for top words
     if (count > maxCount * 0.5) {
       ctx.shadowColor = color + '55';
       ctx.shadowBlur = 8;
     }
-
-    ctx.font = `${count===maxCount?'bold ':''}${size}px Quicksand, sans-serif`;
+    ctx.font = `${count === maxCount ? 'bold ' : ''}${pos.size}px Quicksand, sans-serif`;
     ctx.fillStyle = color;
-    ctx.globalAlpha = 0.75 + 0.25*(count/maxCount);
+    ctx.globalAlpha = 0.75 + 0.25 * (count / maxCount);
     ctx.fillText(word, pos.x, pos.y);
     ctx.shadowBlur = 0;
     ctx.globalAlpha = 1;
   });
-
-  // Watermark
-  ctx.font = '11px Quicksand';
-  ctx.fillStyle = 'rgba(180,140,160,0.4)';
 }
 
 function downloadCloud() {
@@ -685,20 +460,21 @@ function downloadCloud() {
 
 function spawnHearts() {
   const emojis = ['♡','🌸','✨','💕','🌷'];
-  for (let i=0;i<8;i++) {
+  for (let i = 0; i < 8; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'floating-heart';
-      el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-      el.style.left = (20+Math.random()*60)+'vw';
-      el.style.top = (40+Math.random()*30)+'vh';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = (20 + Math.random() * 60) + 'vw';
+      el.style.top = (40 + Math.random() * 30) + 'vh';
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 3000);
-    }, i*200);
+    }, i * 200);
   }
 }
 
-// Page is ready — waiting for file upload to generate the cloud.
+// Auto-generate on load
+window.addEventListener('DOMContentLoaded', redraw);
 </script>
 </body>
 </html>
