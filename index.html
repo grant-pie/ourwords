@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>our words</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #f9b8cc;
+    --lavender: #d4b8f9;
+    --mint: #b8f0e0;
+    --peach: #f9d4b8;
+    --sky: #b8d4f9;
+    --cream: #fdf6f0;
+    --text: #5a3e50;
+    --soft: #c4a0b4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -120px; left: -120px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #f9b8cc55, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -100px; right: -100px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, #d4b8f955, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 2.8rem;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  header p {
+    color: var(--soft);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .hearts {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+
+  .controls-panel {
+    background: white;
+    border-radius: 24px;
+    padding: 24px 32px;
+    box-shadow: 0 4px 30px rgba(180, 120, 160, 0.1);
+    margin-bottom: 32px;
+    border: 1.5px solid #f0e0ea;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .option-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  input[type="text"], input[type="number"], select {
+    padding: 10px 14px;
+    border: 1.5px solid #f0dde8;
+    border-radius: 12px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: #fdf9fc;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus { border-color: var(--pink); }
+
+  .btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--pink), var(--lavender));
+    color: white;
+    box-shadow: 0 4px 16px rgba(249, 184, 204, 0.5);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249, 184, 204, 0.6);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--soft);
+    border: 1.5px solid #f0dde8;
+  }
+
+  .btn-secondary:hover {
+    background: #fdf0f5;
+    border-color: var(--pink);
+  }
+
+  .cloud-panel {
+    background: white;
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 4px 30px rgba(180, 120, 160, 0.1);
+    border: 1.5px solid #f0e0ea;
+    animation: fadeUp 0.5s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .cloud-title {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .cloud-subtitle {
+    text-align: center;
+    color: var(--soft);
+    font-size: 0.85rem;
+    margin-bottom: 32px;
+  }
+
+  #cloud-canvas {
+    display: block;
+    width: 100%;
+    border-radius: 16px;
+    background: var(--cream);
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--pink);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--soft);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .top-words {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .top-words h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  .word-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .pill {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 28px;
+  }
+
+  .floating-heart {
+    position: fixed;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: floatUp 3s ease forwards;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  @keyframes floatUp {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-180px) scale(1.4); }
+  }
+
+  .upload-panel {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 4px 30px rgba(180, 120, 160, 0.1);
+    margin-bottom: 32px;
+    border: 2px dashed #f0dde8;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+  }
+
+  .upload-panel.drag-over {
+    border-color: var(--pink);
+    background: #fdf0f5;
+  }
+
+  .upload-panel.has-file {
+    border-style: solid;
+    border-color: #b8f0e0;
+    background: #f5fdf9;
+    cursor: default;
+  }
+
+  .upload-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+  .upload-panel h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .upload-panel > p {
+    color: var(--soft);
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+  }
+
+  .upload-panel input[type="file"] { display: none; }
+
+  .file-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #45c4a0;
+  }
+
+  .file-status .fname { color: var(--text); }
+
+  @media (max-width: 500px) {
+    header h1 { font-size: 2rem; }
+    .controls-panel, .cloud-panel { padding: 22px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>our words</h1>
+    <div class="hearts">🌸 ✨ 💌 ✨ 🌸</div>
+  </header>
+
+  <div class="upload-panel" id="upload-panel" onclick="document.getElementById('file-input').click()">
+    <div id="upload-prompt">
+      <div class="upload-icon">💌</div>
+      <h2>upload your chat</h2>
+      <p>drag & drop your WhatsApp export (.txt) here, or click to browse</p>
+      <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('file-input').click()">choose file</button>
+    </div>
+    <div id="file-status" class="file-status" style="display:none">
+      <span>✓</span>
+      <span class="fname" id="file-name"></span>
+      <button class="btn btn-secondary" style="padding:6px 14px;font-size:0.8rem" onclick="event.stopPropagation(); clearFile()">change</button>
+    </div>
+    <input type="file" id="file-input" accept=".txt">
+  </div>
+
+  <div class="controls-panel">
+    <div class="option-group">
+      <label for="cloud-title">title</label>
+      <input type="text" id="cloud-title" value="our words" placeholder="our words">
+    </div>
+    <div class="option-group">
+      <label for="palette">colour palette</label>
+      <select id="palette">
+        <option value="pastel">pastel 🌸</option>
+        <option value="rose">rose 🌹</option>
+        <option value="sky">sky 🌤</option>
+        <option value="mint">mint 🌿</option>
+        <option value="sunset">sunset 🌅</option>
+      </select>
+    </div>
+    <div style="display: none;" class="option-group">
+      <label for="max-words">max words</label>
+      <input type="number" id="max-words" value="80" min="10" max="120">
+    </div>
+    <button class="btn btn-primary" onclick="redraw()">regenerate ✨</button>
+  </div>
+
+  <div class="cloud-panel" id="cloud-panel" style="display:none">
+    <div class="cloud-title" id="output-title">our words</div>
+    <div class="cloud-subtitle" id="output-subtitle"></div>
+    <canvas id="cloud-canvas" width="780" height="480"></canvas>
+
+    <div class="stats-row" id="stats-row"></div>
+
+    <div class="top-words">
+      <h3>your most-used words</h3>
+      <div class="word-pills" id="word-pills"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="downloadCloud()">save as image 💾</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DYNAMIC WORD DATA (populated from uploaded file) ─────────────────────────
+let ALL_WORDS = [];
+let TOTAL_WORDS = 0;
+let UNIQUE_WORDS = 0;
+
+// ── STOP WORDS ────────────────────────────────────────────────────────────────
+const STOP_WORDS = new Set([
+  'i','me','my','myself','we','our','ours','ourselves','you','your','yours',
+  'yourself','yourselves','he','him','his','himself','she','her','hers',
+  'herself','it','its','itself','they','them','their','theirs','themselves',
+  'what','which','who','whom','this','that','these','those','am','is','are',
+  'was','were','be','been','being','have','has','had','having','do','does',
+  'did','doing','a','an','the','and','but','if','or','because','as','until',
+  'while','of','at','by','for','with','about','against','between','into',
+  'through','during','before','after','above','below','to','from','up','down',
+  'in','out','on','off','over','under','again','further','then','once','here',
+  'there','when','where','why','how','all','both','each','few','more','most',
+  'other','some','such','no','nor','not','only','own','same','so','than','too',
+  'very','can','will','just','now','s','t','d','ll','m','re','ve','y',
+  // contractions / informal
+  'im','ive','id','its','dont','cant','wont','isnt','wasnt','didnt',
+  'wouldnt','couldnt','shouldnt','thats','theyre','weve','youre','youd',
+  'youll','theyd','theyll','wouldve','couldve','shouldve',
+  // chat filler
+  'ok','okay','yeah','yep','yea','nope','nah','oh','ah','hey','hi','hmm','hm',
+  'haha','hahaha','lol','lmao','omg','ugh','wow','well','also','even','still',
+  'like','get','got','going','go','know','think','want','need','come','see',
+  'make','say','said','told','tell','let','put','use','one','two','three',
+  'already','really','actually','basically','literally','honestly',
+  'definitely','probably','maybe','perhaps','always','never','sometimes',
+  'something','anything','everything','nothing','someone','anyone','everyone',
+  // WhatsApp system
+  'omitted','media','deleted','message','messages','calls','encrypted',
+  'null','edited',
+]);
+
+// ── WHATSAPP PARSER ───────────────────────────────────────────────────────────
+function parseWhatsAppText(text) {
+  // Matches Android: "20/03/2025, 14:23 - Name: msg"
+  // and iOS:         "[20/03/2025, 14:23:45] Name: msg"
+  // and iOS 12hr:    "[3/20/25, 2:23:45 PM] Name: msg"
+  const lineRe = /^(?:\[[\d\/\., :]+(?:AM|PM)?\]\s*|[\d\/]+,\s*[\d:]+(?:\s*(?:AM|PM))?\s*-\s*)[^:]{1,60}:\s*/i;
+
+  let body = '';
+  for (const line of text.split('\n')) {
+    const m = line.match(lineRe);
+    if (!m) continue;
+    const content = line.slice(m[0].length).trim();
+    if (!content || content === '<Media omitted>' ||
+        content.startsWith('Messages and calls are') ||
+        content.startsWith('This message was deleted')) continue;
+    body += ' ' + content;
+  }
+
+  const freq = {};
+  let total = 0;
+  const tokens = body
+    .toLowerCase()
+    .replace(/https?:\/\/\S+/g, '')      // strip URLs
+    .replace(/[^a-z\s'-]/g, ' ')         // keep only letters, apostrophes, hyphens
+    .replace(/'/g, '')                    // remove apostrophes (dont → dont)
+    .split(/\s+/);
+
+  for (const word of tokens) {
+    const w = word.replace(/^'+|'+$/g, '').replace(/-+$|^-+/, '');
+    if (w.length < 3 || STOP_WORDS.has(w)) continue;
+    freq[w] = (freq[w] || 0) + 1;
+    total++;
+  }
+
+  const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+  return { words: sorted, total, unique: sorted.length };
+}
+
+// ── FILE UPLOAD HANDLING ──────────────────────────────────────────────────────
+function setupUpload() {
+  const input = document.getElementById('file-input');
+  const panel = document.getElementById('upload-panel');
+
+  input.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) loadFile(file);
+  });
+
+  panel.addEventListener('dragover', e => { e.preventDefault(); panel.classList.add('drag-over'); });
+  panel.addEventListener('dragleave', () => panel.classList.remove('drag-over'));
+  panel.addEventListener('drop', e => {
+    e.preventDefault();
+    panel.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.name.endsWith('.txt')) loadFile(file);
+  });
+}
+
+function loadFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const result = parseWhatsAppText(e.target.result);
+    if (result.words.length === 0) {
+      alert("Couldn't find any chat messages. Make sure this is a WhatsApp .txt export.");
+      return;
+    }
+    ALL_WORDS = result.words;
+    TOTAL_WORDS = result.total;
+    UNIQUE_WORDS = result.unique;
+
+    // Update upload panel to show file name
+    const panel = document.getElementById('upload-panel');
+    panel.classList.add('has-file');
+    panel.onclick = null;
+    document.getElementById('upload-prompt').style.display = 'none';
+    document.getElementById('file-name').textContent = file.name;
+    document.getElementById('file-status').style.display = 'flex';
+
+    // Show cloud panel and draw
+    document.getElementById('cloud-panel').style.display = 'block';
+    redraw();
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+function clearFile() {
+  ALL_WORDS = []; TOTAL_WORDS = 0; UNIQUE_WORDS = 0;
+  const panel = document.getElementById('upload-panel');
+  panel.classList.remove('has-file');
+  panel.onclick = () => document.getElementById('file-input').click();
+  document.getElementById('upload-prompt').style.display = '';
+  document.getElementById('file-status').style.display = 'none';
+  document.getElementById('file-input').value = '';
+  document.getElementById('cloud-panel').style.display = 'none';
+}
+
+const PALETTES = {
+  pastel:  ['#f9b8cc','#d4b8f9','#b8d4f9','#b8f0e0','#f9d4b8','#f0b8f9','#f9f0b8','#b8f9d4'],
+  rose:    ['#f7a8b8','#f4c2c2','#e8a0b4','#d4687c','#f9c8d4','#e87890','#f0a0b0','#c45068'],
+  sky:     ['#b8d4f9','#d4b8f9','#b8e8f9','#98c4f0','#c8b0f0','#88b8e8','#a8c0f8','#b0a0e0'],
+  mint:    ['#b8f0e0','#f9d4b8','#a8e8d0','#f0e8a8','#c8f0c8','#f8d0a8','#98ddc8','#f0c898'],
+  sunset:  ['#f9d4a8','#f9b898','#f0a888','#f8c8b0','#f0b880','#e89870','#f8d890','#f0c870'],
+};
+
+const PILL_COLORS = [
+  {bg:'#fde8ef',color:'#c45068'},
+  {bg:'#ede8fd',color:'#6045c4'},
+  {bg:'#e8f0fd',color:'#4568c4'},
+  {bg:'#e8fdf5',color:'#45c4a0'},
+  {bg:'#fdf3e8',color:'#c48045'},
+];
+
+function redraw() {
+  if (!ALL_WORDS.length) return;
+  const maxWords = parseInt(document.getElementById('max-words').value) || 80;
+  const words = ALL_WORDS.slice(0, maxWords);
+  const palette = PALETTES[document.getElementById('palette').value] || PALETTES.pastel;
+  const titleVal = document.getElementById('cloud-title').value || 'our words';
+
+  document.getElementById('output-title').textContent = titleVal;
+  document.getElementById('output-subtitle').textContent =
+    `${TOTAL_WORDS.toLocaleString()} words · ${UNIQUE_WORDS.toLocaleString()} unique`;
+
+  document.getElementById('stats-row').innerHTML = [
+    [TOTAL_WORDS.toLocaleString(), 'total words'],
+    [UNIQUE_WORDS.toLocaleString(), 'unique words'],
+    [ALL_WORDS[0][0], 'most said'],
+  ].map(([n,l]) => `<div class="stat"><span class="stat-num">${n}</span><span class="stat-label">${l}</span></div>`).join('');
+
+  const pills = document.getElementById('word-pills');
+  pills.innerHTML = ALL_WORDS.slice(0, 12).map(([w,c], i) => {
+    const col = PILL_COLORS[i % PILL_COLORS.length];
+    return `<span class="pill" style="background:${col.bg};color:${col.color}">${w} <b>${c}</b></span>`;
+  }).join('');
+
+  drawCloud(words, palette);
+  spawnHearts();
+}
+
+function drawCloud(words, palette) {
+  const canvas = document.getElementById('cloud-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  ctx.fillStyle = '#fdf6f0';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = 'rgba(180,140,160,0.12)';
+  for (let x = 20; x < W; x += 30) for (let y = 20; y < H; y += 30) {
+    ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
+  }
+
+  const maxCount = words[0][1];
+  const minCount = words[words.length - 1][1];
+  const placed = [];
+  const minFont = 13, maxFont = 72;
+
+  function fontSize(count) {
+    if (maxCount === minCount) return (minFont + maxFont) / 2;
+    return minFont + (maxFont - minFont) * Math.pow((count - minCount) / (maxCount - minCount), 0.55);
+  }
+
+  function overlaps(x, y, w, h) {
+    const pad = 6;
+    for (const p of placed) {
+      if (x - pad < p.x + p.w && x + w + pad > p.x &&
+          y - pad < p.y + p.h && y + h + pad > p.y) return true;
+    }
+    return false;
+  }
+
+  function tryPlace(word, count, attempt) {
+    const size = fontSize(count);
+    ctx.font = `${count === maxCount ? 'bold ' : ''}${size}px Quicksand, sans-serif`;
+    const tw = ctx.measureText(word).width;
+    const th = size * 1.2;
+    const cx = W / 2, cy = H / 2;
+    for (let r = 0; r < Math.max(W, H) * 0.8; r += 3) {
+      const angle = r * 0.28 + attempt * 1.3;
+      const x = cx + r * Math.cos(angle) - tw / 2;
+      const y = cy + r * Math.sin(angle) + th / 3;
+      if (x < 4 || x + tw > W - 4 || y - th < 4 || y > H - 4) continue;
+      if (!overlaps(x, y - th, tw, th)) {
+        placed.push({ x, y: y - th, w: tw, h: th });
+        return { x, y, size, tw, th };
+      }
+    }
+    return null;
+  }
+
+  words.forEach(([word, count], i) => {
+    const pos = tryPlace(word, count, i);
+    if (!pos) return;
+    const color = palette[i % palette.length];
+    if (count > maxCount * 0.5) {
+      ctx.shadowColor = color + '55';
+      ctx.shadowBlur = 8;
+    }
+    ctx.font = `${count === maxCount ? 'bold ' : ''}${pos.size}px Quicksand, sans-serif`;
+    ctx.fillStyle = color;
+    ctx.globalAlpha = 0.75 + 0.25 * (count / maxCount);
+    ctx.fillText(word, pos.x, pos.y);
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
+  });
+}
+
+function downloadCloud() {
+  const canvas = document.getElementById('cloud-canvas');
+  const link = document.createElement('a');
+  link.download = 'our-words.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function spawnHearts() {
+  const emojis = ['♡','🌸','✨','💕','🌷'];
+  for (let i = 0; i < 8; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'floating-heart';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = (20 + Math.random() * 60) + 'vw';
+      el.style.top = (40 + Math.random() * 30) + 'vh';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }, i * 200);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', setupUpload);
+</script>
+</body>
+</html>
