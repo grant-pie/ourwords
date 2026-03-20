@@ -344,6 +344,12 @@
   <header>
     <h1>our words</h1>
     <div class="hearts">🌸 ✨ 💌 ✨ 🌸</div>
+    <p style="color:var(--soft);font-size:0.9rem;margin-top:12px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.6;">
+      turn your WhatsApp conversation into a beautiful word cloud. export your chat as a .txt file, upload it here, and see the words you share most — rendered as art.
+    </p>
+    <p style="color:var(--soft);font-size:0.8rem;margin-top:8px;opacity:0.8;">
+      🔒 your chat is processed entirely in your browser — nothing is ever uploaded or stored.
+    </p>
   </header>
 
   <div class="upload-panel" id="upload-panel" onclick="document.getElementById('file-input').click()">
@@ -351,7 +357,7 @@
       <div class="upload-icon">💌</div>
       <h2>upload your chat</h2>
       <p>drag & drop your WhatsApp export (.txt) here, or click to browse</p>
-      <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('file-input').click()">choose file</button>
+      <button class="btn btn-primary" style="margin-top:8px;" onclick="event.stopPropagation(); document.getElementById('file-input').click()">choose file</button>
     </div>
     <div id="file-status" class="file-status" style="display:none">
       <span>✓</span>
